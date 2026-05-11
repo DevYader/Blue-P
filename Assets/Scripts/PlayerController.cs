@@ -11,12 +11,24 @@ public class PlayerController : MonoBehaviour
 
     private Camera mainCamera;
 
+    private bool isEverythinInit;
+
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
         charCon = GetComponent<CharacterController>();
         moveAction = InputSystem.actions.FindAction("Move");
         mainCamera = GetComponentInChildren<Camera>();
+
+        if(charCon != null && moveAction != null && mainCamera != null)
+        {
+            isEverythinInit = true;
+        }
+        else
+        {
+            isEverythinInit = false;
+            Debug.LogError("Not every component is initialized inside the Player Controller.");
+        }
     }
 
     // Update is called once per frame
@@ -27,7 +39,7 @@ public class PlayerController : MonoBehaviour
 
     private void Movement()
     {
-        if(moveAction != null)
+        if(isEverythinInit)
         {
             Vector2 moveInput = moveAction.ReadValue<Vector2>();
 
