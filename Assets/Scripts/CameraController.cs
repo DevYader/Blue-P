@@ -8,10 +8,12 @@ public class CameraController : MonoBehaviour
     private InputAction lookAction;
     private Vector3 pitch, yaw;
     private Camera mainCamera;
+    private GameObject parent;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
+        parent = GetComponentInParent<Transform>().gameObject;
         lookAction = InputSystem.actions.FindAction("Look");
         mainCamera = GetComponentInChildren<Camera>();
 
@@ -33,7 +35,7 @@ public class CameraController : MonoBehaviour
         Vector3 lookInput = lookAction.ReadValue<Vector2>();
 
         // horizontal rotation calc
-        mainCamera.transform.eulerAngles += yaw * lookInput.x * mouseSensitivity * Time.deltaTime;
+        parent.transform.eulerAngles += yaw * lookInput.x * mouseSensitivity * Time.deltaTime;
 
         //vertical rotation calc
         mainCamera.transform.eulerAngles -= pitch * lookInput.y * mouseSensitivity * Time.deltaTime;

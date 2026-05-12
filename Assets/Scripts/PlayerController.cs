@@ -10,6 +10,7 @@ public class PlayerController : MonoBehaviour
     private InputAction moveAction;
 
     private Camera mainCamera;
+    private GameObject cameraParent;
 
     private bool isEverythinInit;
 
@@ -19,6 +20,7 @@ public class PlayerController : MonoBehaviour
         charCon = GetComponent<CharacterController>();
         moveAction = InputSystem.actions.FindAction("Move");
         mainCamera = GetComponentInChildren<Camera>();
+        cameraParent = GetComponentInChildren<CameraController>().gameObject;
 
         if(charCon != null && moveAction != null && mainCamera != null)
         {
@@ -43,7 +45,7 @@ public class PlayerController : MonoBehaviour
         {
             Vector2 moveInput = moveAction.ReadValue<Vector2>();
 
-            Vector3 move = mainCamera.transform.forward * moveInput.y + mainCamera.transform.right * moveInput.x;
+            Vector3 move = cameraParent.transform.forward * moveInput.y + mainCamera.transform.right * moveInput.x;
             move *= movementSpeed * Time.deltaTime;
 
             charCon.Move(move);
