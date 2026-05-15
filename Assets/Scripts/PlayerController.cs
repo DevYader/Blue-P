@@ -39,6 +39,20 @@ public class PlayerController : MonoBehaviour
         Movement();
     }
 
+    void FixedUpdate()
+    {
+        RaycastHit hit;
+        Vector3 origin = cameraParent.transform.position;
+        Vector3 direction = mainCamera.transform.forward;
+        LayerMask layerMask = LayerMask.GetMask("Item");
+
+        if(Physics.Raycast(origin, direction, out hit, 10f, layerMask))
+        {
+            Debug.DrawRay(transform.position, transform.TransformDirection(Vector3.forward) * hit.distance, Color.yellow);
+            Debug.Log("hit");
+        }
+    }
+
     private void Movement()
     {
         if(isEverythinInit)
@@ -51,4 +65,6 @@ public class PlayerController : MonoBehaviour
             charCon.Move(move);
         }
     }
+
+    
 }
