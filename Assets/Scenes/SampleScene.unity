@@ -673,6 +673,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerController
   movementSpeed: 10
+  grabPoint: {fileID: 1499605900}
 --- !u!1 &832575517
 GameObject:
   m_ObjectHideFlags: 0
@@ -1020,8 +1021,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5370eb5db3d6ef747831d0b8cfc92a11, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Item
+  travelSpeed: 5
   isGrabbed: 0
   target: {fileID: 0}
+  rigidBody: {fileID: 0}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
