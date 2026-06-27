@@ -8,11 +8,14 @@ public class PlayerController : MonoBehaviour
     public float movementSpeed = 3f;
     private CharacterController charCon;
     private InputAction moveAction;
-
     private Camera mainCamera;
+    [Header("Components")]
+    [SerializeField]
+    private GameObject grabPoint;
+
     private GameObject cameraParent;
 
-    private bool isEverythinInit;
+    private bool isEverythingInIt;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -24,11 +27,11 @@ public class PlayerController : MonoBehaviour
 
         if(charCon != null && moveAction != null && mainCamera != null)
         {
-            isEverythinInit = true;
+            isEverythingInIt = true;
         }
         else
         {
-            isEverythinInit = false;
+            isEverythingInIt = false;
             Debug.LogError("Not every component is initialized inside the Player Controller.");
         }
     }
@@ -41,6 +44,8 @@ public class PlayerController : MonoBehaviour
 
     void FixedUpdate()
     {
+        // Detects items in front of the player's camera
+
         RaycastHit hit;
         Vector3 origin = cameraParent.transform.position;
         Vector3 direction = mainCamera.transform.forward;
@@ -48,14 +53,20 @@ public class PlayerController : MonoBehaviour
 
         if(Physics.Raycast(origin, direction, out hit, 10f, layerMask))
         {
-            Debug.DrawRay(transform.position, transform.TransformDirection(Vector3.forward) * hit.distance, Color.yellow);
-            Debug.Log("hit");
+            Item item = hit.transform.gameObject.GetComponent<Item>();
+
+            if(item != null)
+            {
+                item.target = grabPoint;
+                item.rigidBody.useGravity = false;
+                item.isGrabbed = true;
+            }
         }
     }
 
     private void Movement()
     {
-        if(isEverythinInit)
+        if(isEverythingInIt)
         {
             Vector2 moveInput = moveAction.ReadValue<Vector2>();
 
